@@ -1,0 +1,55 @@
+You are an AI coding agent working in this repo. Follow these React conventions for styles and pages.
+
+General
+- Prefer small, composable components with clear responsibilities.
+- Keep side effects out of render. Put effects in hooks and keep dependency arrays correct.
+- Do not introduce unused dependencies. Prefer built-in APIs and small utilities.
+
+Project structure (pages and UI)
+- Put route-level components in src/pages. Each page should coordinate data, routing, and composition.
+- Put reusable UI pieces in src/components. Keep them presentational when possible.
+- If a feature has multiple components, hooks, and helpers, group it in src/features/<featureName>/.
+- Put shared layouts in src/layouts (or keep a Layout component next to pages if small).
+- Keep pages thin: move heavy logic to hooks (src/hooks) and helpers (src/lib).
+- Prefer named exports for shared components and utilities. Use default exports for route pages only.
+
+Routing
+- Use React Router with a route config and nested layouts when the app grows.
+- Prefer code splitting on routes (lazy + Suspense) for larger apps.
+- Add error boundaries for route-level failures.
+
+Styling (preferred order)
+1) CSS Modules for component-scoped styles (default).
+2) Plain CSS with strict scoping (only for truly global rules like a CSS reset).
+3) Inline styles only for tiny one-off values or dynamic styles that would be awkward in CSS.
+
+Styling rules
+- ALL styles live in src/styles/. Do not put CSS files alongside components or pages.
+- Global styles and CSS variables go in src/styles/global.css.
+- CSS Modules are named ComponentName.module.css and live in src/styles/.
+- Prefer CSS Modules over inline styles. Inline styles are allowed only for truly dynamic values (e.g., width based on a prop) or 1-2 one-off declarations.
+- Avoid global selectors that leak (no styling bare h1, button, a globally unless it is a reset).
+- Use CSS variables for theme tokens: colors, spacing, radius, shadows, z-index.
+- Prefer rem for typography and spacing. Use px for hairlines only.
+- Keep animation subtle and respect prefers-reduced-motion.
+- Do not add a CSS framework unless asked. If you add one, document it in README.
+
+CSS Modules conventions
+- Name module files `ComponentName.module.css` and place them in src/styles/.
+- Use `camelCase` class names in CSS Modules so `styles.someClass` matches naturally.
+- Avoid deeply nested selectors; keep modules component-scoped and shallow.
+
+Pages and state
+- Keep state closest to where it is used.
+- Avoid prop drilling across many levels. Use Context for app-level concerns only (auth, theme).
+- Prefer derived state over duplicated state.
+- Prefer controlled forms for complex inputs and validation.
+
+Performance and DX
+- Use memoization (useMemo/useCallback/React.memo) only after you see a real need.
+- Keep keys stable when rendering lists. Do not use array index as key for reorderable lists.
+- Add small, focused utilities (clsx for className composition is ok).
+
+Edits policy
+- When you change structure or styling approach, update imports and delete dead files.
+- Keep changes minimal and consistent with the patterns above.
